@@ -9,31 +9,31 @@
 
 - name: Download Vagrant
   get_url: url=https://releases.hashicorp.com/vagrant/{{ vagrant_version }}/vagrant_{{ vagrant_version }}_x86_64.deb
-           dest=/var/cache/apt/archives/vagrant_{{ vagrant_version }}_x86_64.deb
+           dest=/tmp/vagrant_{{ vagrant_version }}_x86_64.deb
   when: vagrant_present | failed
-  sudo: yes
+  become: yes
   tags:
     -vagrant
     -setup
 
 - name: Install Vagrant
-  apt: deb=/var/cache/apt/archives/vagrant_{{ vagrant_version }}_x86_64.deb state=installed
+  apt: deb=/tmp/vagrant_{{ vagrant_version }}_x86_64.deb state=installed
   when: vagrant_present | failed
-  sudo: yes
+  become: yes
   tags:
     -vagrant
     -setup
 
 - name: Vagrant | update dkms
   apt:  update_cache=yes pkg=dkms state=installed
-  sudo: yes
+  become: yes
   tags:
     -vagrant
     -setup
 
 - name: Vagrant | update dkms
   apt:  update_cache=yes pkg=dkms state=installed
-  sudo: yes
+  become: yes
   tags:
     -vagrant
     -setup

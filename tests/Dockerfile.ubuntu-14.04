@@ -6,7 +6,7 @@ RUN apt-get update -y
 RUN apt-get install -y software-properties-common git python-dev
 RUN apt-get install -y python-pip
 RUN pip install -U pip
-RUN pip install ansible==1.9.4
+RUN pip install ansible
 RUN mkdir -p /etc/ansible
 
 #COPY initctl_faker .
