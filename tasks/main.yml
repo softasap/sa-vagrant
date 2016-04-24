@@ -1,0 +1,3 @@
+---
+# tasks file for sa-vagrant
+  - include: tasks_vagrant.yml

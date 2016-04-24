@@ -1,0 +1,10 @@
+---
+# defaults file for sa-vagrant
+
+  vagrant_version: 1.8.1
+
+  vagrant_plugins:
+    - vagrant-vbguest
+    - vagrant-hostsupdater
+    - vagrant-auto_network
+
