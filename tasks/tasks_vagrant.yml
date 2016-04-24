@@ -18,7 +18,7 @@
 
 - name: Install Vagrant
   apt: deb=/var/cache/apt/archives/vagrant_{{ vagrant_version }}_x86_64.deb state=installed
-  when: vagrant_present | failed  
+  when: vagrant_present | failed
   sudo: yes
   tags:
     -vagrant
@@ -31,7 +31,6 @@
     -vagrant
     -setup
 
-
 - name: Vagrant | update dkms
   apt:  update_cache=yes pkg=dkms state=installed
   sudo: yes
@@ -39,13 +38,11 @@
     -vagrant
     -setup
 
-
-- name: Vagrant | install plugins (default: vbguest, hostsupdater, auto_network)
+- name: Vagrant | install plugins (default - vbguest, hostsupdater, auto_network)
   shell: vagrant plugin install vagrant-vbguest
   become: yes
   when: vagrant_plugins is defined
-  with_items: vagrant_plugins 
+  with_items: vagrant_plugins
   tags:
     -vagrant
     -setup
-

@@ -1,38 +1,47 @@
-Role Name
-=========
+sa-vagrant
+==========
 
-A brief description of the role goes here.
+[![Build Status](https://travis-ci.org/softasap/sa-vagrant.svg?branch=master)](https://travis-ci.org/softasap/sa-vagrant)
 
-Requirements
-------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+Installs basic vagrant setup with necessary plugins
 
-Role Variables
---------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
 
-Dependencies
-------------
+Example of use:
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+<pre>
 
-Example Playbook
-----------------
+     - {
+         role: "sa-vagrant",
+         vagrant_version: 1.8.1,
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+         vagrant_plugins:
+           - vagrant-vbguest
+           - vagrant-hostsupdater
+           - vagrant-auto_network
+       }
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+</pre>
 
-License
--------
 
-BSD
+There are tons of vagrant plugins. Some of them are quite handy.
+Usually I am using three plugins with vagrant:
 
-Author Information
-------------------
+- vagrant-vbguest: Synhronizes guest additions versions inside image  with the master Oracle VirtualBox version. This helps to prevent random issues with shared folders.
+- vagrant-hostsupdater: Automatically updates host files with side dev aliases used. Important: this plugin will ask you for privileged access to write into /etc/hosts.  
+- vagrant-auto_network: This plugin registers an internal address range and assigns unique IP addresses for each successive request so that network configuration is entirely hands off. It's much lighter than running a DNS server and masks the underlying work of manually assigning addresses.
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+With plugins above, my Vagrantfile usually contains: aliases for dev websites to be added to /etc/hosts + I prefer all Vagrant boxes to have the same IP address subnetwork.
+<pre>
+config.vm.hostname = "www.local.dev"
+config.hostsupdater.aliases = ["alias.local.dev", "alias2.local.dev"]
+config.vm.network :private_network, :auto_network => true
+
+# My favorite:  to stick to 33.* subnetwork
+AutoNetwork.default_pool = '192.168.33.0/24'
+</pre>
+
+Vagrant in action:
+
+https://github.com/Voronenko/lamp-box/
